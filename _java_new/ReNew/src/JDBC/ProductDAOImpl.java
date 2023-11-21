@@ -1,4 +1,4 @@
-package JDBC;
+ package JDBC;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +25,7 @@ public class ProductDAOImpl implements DAO {
 		conn = dbc.getConnection();
 	}
 
-	public int insert(Product p) {
+	public int insert(Product p) { 
 		// TODO Auto-generated method stub
 		System.out.println("insert DAO success");
 		query = "insert into product(pname, price, madeby) values(?,?,?)";
@@ -96,6 +96,46 @@ public class ProductDAOImpl implements DAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public int update(Product p) {
+		// TODO Auto-generated method stub
+		System.out.println("update DAO success!!");
+		query = "update product set pname=?, price=?, regdate=now(), madeby=? where pno = ?";
+		try {
+			pst = conn.prepareStatement(query);
+			pst.setString(1, p.getPname());
+			pst.setInt(2, p.getPrice());
+			pst.setString(3, p.getMadeby());
+			pst.setInt(4, p.getPno());
+			//insert, update, delete
+			return pst.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			System.out.println("update error");
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int delete(int pno) {
+		// TODO Auto-generated method stub
+		System.out.println("update DAO success!!");
+		query = "delete from product where pno=?";
+		try {
+			pst = conn.prepareStatement(query);
+			pst.setInt(1, pno);
+			return pst.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			System.out.println("delete error");
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	
